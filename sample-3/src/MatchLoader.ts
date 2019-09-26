@@ -1,11 +1,9 @@
 import { dateStringToDate } from './utils';
 import { MatchResult } from './MatchResult';
 import {DataReader} from './DataReader'
+import {MatchData} from './MatchData'
 
-type MatchData = [Date, string, string, number, number, MatchResult, string];
-
-
-export class MatchReader {
+export class MatchLoader {
   matches: MatchData[] = [];
 
   constructor(public reader: DataReader) {}
