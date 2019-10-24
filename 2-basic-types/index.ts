@@ -85,13 +85,13 @@ axios.get('https://jsonplaceholder.typicode.com/todos/1')
       broken: boolean
   }
 
-//Reporable interface having only the summary methid 
+//Reportable interface having only the summary methid 
 interface Reportable {
     summary(): string
 }
 
 //A variable 'oldCar' marked as type of Reportable having ONLY the summary method as Reportable
-const oldCar: Reportable = {
+let oldCar:Reportable = {
     summary() {
         return this.name
     }
@@ -99,8 +99,9 @@ const oldCar: Reportable = {
 
 //A variable 'newCar' marked as type of Reportable having the summary method in addition to other properties
 //This causes type error, 'Object literal may only specify known properties', that means newCar must match Reportable exactly
-const newCar: Reportable = {
-    name: "maruti",
+//While DEFINING  A VARIABLE WITH A MARKED TYPE then the structure of the value being assined in the def should match exactly the type
+let newCar:Reportable = {
+    name: "esteem",
     year: new Date(),
     broken: false,
     summary() {
@@ -117,4 +118,50 @@ function report(input: Reportable):string {
 report(oldCar)
 report(newCar)
 
-  
+
+//In case of X = Y, X is compatible with Y, if Y has at least the same members as X, i.e., Y may have more members than X but at least
+//should have the same members as X.
+let smallCar = {
+    summary() {
+        return this.name
+    }
+}
+
+let bigcar = {
+    name: "esteem",
+    year: new Date(),
+    broken: false,
+    summary() {
+        return this.name
+    }
+}
+
+smallCar = bigcar
+bigcar = smallCar
+
+//Comparing functions
+//When two functions differ only by their parameter list, then in case of X = Y, X is compatible with Y, if 
+//each parameter in Y has a corresponding parameter in X with a compatible type
+let smallFunc = (a: number) => 0;
+let bigFunc = (b: number, s: string) => 0;
+
+bigFunc = smallFunc; // OK
+smallFunc = bigFunc; // Error
+
+//When two functions that differ only by their return type, then in case of X = Y, X is compatible with Y, if 
+//X's return type is sub-type of Y's return type
+
+let smallFunction = () => ({name: "Alice"});
+let bigFunction = () => ({name: "Alice", location: "Seattle"});
+
+smallFunction = bigFunction; // OK
+bigFunction = smallFunction; // Error, because x() lacks a location property
+
+//When comparing functions for compatibility, optional and required parameters are interchangeable.
+//Extra optional parameters of X are not an error, and optional parameters of Y without corresponding parameters in X are not an error.
+//When a function has a rest parameter, it is treated as if it were an infinite series of optional parameters.
+function invokeLater(args: any[], callback: (...args: any[]) => void) {
+    /* ... Invoke callback with 'args' ... */
+}
+invokeLater([1, 2], (x, y) => console.log(x + ", " + y));
+
