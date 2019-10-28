@@ -118,6 +118,7 @@ function report(input: Reportable):string {
 report(oldCar)
 report(newCar)
 
+//The basic rule for TypeScript’s structural type system is that x is compatible with y if y has at least the same members as x
 
 //In case of X = Y, X is compatible with Y, if Y has at least the same members as X, i.e., Y may have more members than X but at least
 //should have the same members as X.
